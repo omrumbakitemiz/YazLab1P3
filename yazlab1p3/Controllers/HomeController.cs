@@ -10,10 +10,11 @@ namespace yazlab1p3.Controllers
     {
         public IActionResult Index()
         {
+            string[] keywords = { "bilgisayar", "milli", "kocaeli" };
             var html = Utilities.GetHtml("http://bilgisayar.kocaeli.edu.tr");
             var htmlWithoutTags = Utilities.RemoveHtmlTags(html);
-            var words = Utilities.SplitToWords(htmlWithoutTags);
-            
+            var wordList = Utilities.SplitToWords(htmlWithoutTags);
+            var results = Utilities.SearchForKeywords(wordList, keywords);
 
             return View();
         }
