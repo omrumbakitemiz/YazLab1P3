@@ -6,44 +6,49 @@ using System.Text.RegularExpressions;
 
 namespace yazlab1p3.Util
 {
-    public static partial class Utilities
+    public static class Utilities
     {
         public static string GetHtml(string url)
         {
-            string result = String.Empty;
-
-            using (HttpClient client = new HttpClient())
+            if (url == string.Empty || url == "")
             {
-                using (HttpResponseMessage response = client.GetAsync(url).Result)
-                {
-                    using (HttpContent content = response.Content)
-                    {
-                        result = content.ReadAsStringAsync().Result;
-                    }
-                }
-            }
-
-            if (result != null)
-            {
-                return result;
+                return null;
             }
             else
             {
-                return null;
+                string result = String.Empty;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        using (HttpContent content = response.Content)
+                        {
+                            result = content.ReadAsStringAsync().Result;
+                        }
+                    }
+                }
+                return result;
             }
         }
 
         public static List<string> SplitToWords(string text)
         {
-            List<string> result = new List<string>();
-            string[] temp_result = text.Split(' ');
-
-            foreach (var word in temp_result)
+            if (text == null)
             {
-                result.Add(word);
+                return null;
             }
+            else
+            {
+                List<string> result = new List<string>();
+                string[] temp_result = text.Split(' ');
 
-            return result;
+                foreach (var word in temp_result)
+                {
+                    result.Add(word);
+                }
+                return result;
+            }
         }
 
         public static string RemoveHtmlTags(string html)
