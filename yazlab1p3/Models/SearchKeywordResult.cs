@@ -1,4 +1,4 @@
-﻿namespace yazlab1p3.Util
+﻿namespace yazlab1p3.Models
 {
     public class SearchKeywordResult
     {

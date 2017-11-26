@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Xunit;
+using yazlab1p3.Models;
 using yazlab1p3.Util;
 
 namespace yazlab1p3.tests
@@ -16,7 +16,7 @@ namespace yazlab1p3.tests
             string url = "http://www.kocaeli.edu.tr";
 
             // Act
-            var result = Utilities.GetHtml(url);
+            var result = Utilities.GetHtmlSource(url);
 
             // Assertion
             Assert.NotNull(result);
@@ -29,7 +29,7 @@ namespace yazlab1p3.tests
             string url = string.Empty;
 
             // Act
-            var result = Utilities.GetHtml(url);
+            var result = Utilities.GetHtmlSource(url);
 
             // Assert
             Assert.Null(result);
@@ -38,7 +38,7 @@ namespace yazlab1p3.tests
         [Fact]
         public void SplitToWords_ResultNotContainsBlankSpace_ReturnTrue()
         {
-            string textWithHtml = Utilities.GetHtml("http://bilgisayar.kocaeli.edu.tr");
+            string textWithHtml = Utilities.GetHtmlSource("http://bilgisayar.kocaeli.edu.tr");
             string text = Utilities.RemoveHtmlTags(textWithHtml);
             var random = new Random();
 
@@ -181,6 +181,54 @@ namespace yazlab1p3.tests
             Assert.Equal(expectedResultFor300, actualResult2[2]);
             Assert.Equal(expectedResultFor250, actualResult2[3]);
             Assert.Equal(expectedResultFor199, actualResult2[4]);
+        }
+
+        [Fact]
+        public void Score_ResultsTrue_ReturnTrue()
+        {
+            // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://bilgisayar.kocaeli.edu.tr")));
+            // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://www.boun.edu.tr/Default.aspx?SectionID=127")));
+            var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("https://www.cmpe.boun.edu.tr/tr")));
+            // string[] keywords = {"bilgisayar", "proje", "numara","milli"};
+            var searchResults1 = new List<SearchKeywordResult>
+            {
+                new SearchKeywordResult {Count = 4, Keyword = "bilgisayar"},
+                new SearchKeywordResult {Count = 6, Keyword = "proje"},
+                new SearchKeywordResult {Count = 5, Keyword = "numara"},
+                new SearchKeywordResult {Count = 3, Keyword = "milli"}
+            };
+
+            var searchResults2 = new List<SearchKeywordResult>
+            {
+                new SearchKeywordResult {Count = 10, Keyword = "bilgisayar"},
+                new SearchKeywordResult {Count = 0, Keyword = "proje"},
+                new SearchKeywordResult {Count = 5, Keyword = "numara"},
+                new SearchKeywordResult {Count = 2, Keyword = "milli"}
+            };
+
+            var searchResults3 = new List<SearchKeywordResult>
+            {
+                new SearchKeywordResult {Count = 5, Keyword = "bilgisayar"},
+                new SearchKeywordResult {Count = 6, Keyword = "proje"},
+                new SearchKeywordResult {Count = 8, Keyword = "numara"},
+                new SearchKeywordResult {Count = 2, Keyword = "milli"}
+            };
+
+            var searchResults4 = new List<SearchKeywordResult>
+            {
+                new SearchKeywordResult {Count = 2, Keyword = "bilgisayar"},
+                new SearchKeywordResult {Count = 6, Keyword = "proje"},
+                new SearchKeywordResult {Count = 10, Keyword = "numara"},
+                new SearchKeywordResult {Count = 0, Keyword = "milli"}
+            };
+            var actualResults = new List<double>();
+
+            var results1 = Utilities.Score(searchResults1);
+            var results2 = Utilities.Score(searchResults2);
+            var results3 = Utilities.Score(searchResults3);
+            var results4 = Utilities.Score(searchResults4);
+
+            Assert.Equal(results1, actualResults);
         }
     }
 }

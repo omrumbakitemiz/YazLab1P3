@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using yazlab1p3.Models;
 
 namespace yazlab1p3.Util
 {
@@ -13,7 +14,7 @@ namespace yazlab1p3.Util
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static string GetHtml(string url)
+        public static string GetHtmlSource(string url)
         {
             if (url == string.Empty || url == "")
             {
@@ -139,6 +140,13 @@ namespace yazlab1p3.Util
             var tPointList = zPointList.Select(item => Math.Round(10 * item + 50, 4)).ToList();
             
             return tPointList;
+        }
+
+        public static List<double> Score(List<SearchKeywordResult> result)
+        {
+            var numberList = result.Select(item => Convert.ToDouble(item.Count)).ToList();
+            
+            return Zscore(numberList);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using yazlab1p3.Models;
-using Microsoft.AspNetCore.Http;
 using yazlab1p3.Util;
 
 namespace yazlab1p3.Controllers
@@ -11,12 +10,12 @@ namespace yazlab1p3.Controllers
         public IActionResult Index()
         {
             string[] keywords = { "bilgisayar", "milli", "kocaeli" };
-            var html = Utilities.GetHtml("http://bilgisayar.kocaeli.edu.tr");
+            var html = Utilities.GetHtmlSource("http://bilgisayar.kocaeli.edu.tr");
             var htmlWithoutTags = Utilities.RemoveHtmlTags(html);
             var wordList = Utilities.SplitToWords(htmlWithoutTags);
             var results = Utilities.SearchForKeywords(wordList, keywords);
 
-            return View();
+            return View(results);
         }
 
         public IActionResult Error()
