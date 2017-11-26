@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using yazlab1p3.Util;
 
@@ -62,9 +63,7 @@ namespace yazlab1p3.tests
         [Fact]
         public void SplitToWord_ResultIsNullWhenInputIsNull_ReturnTrue()
         {
-            string text = null;
-
-            var result = Utilities.SplitToWords(text);
+            var result = Utilities.SplitToWords(null);
 
             Assert.Null(result);
         }
@@ -77,12 +76,7 @@ namespace yazlab1p3.tests
             string[] keywords = { "bilgisayar", "milli", "güvenlik", "test" };
 
             var result = Utilities.SearchForKeywords(wordList, keywords);
-            var resultCount = 0;
-
-            foreach (var item in result)
-            {
-                resultCount += item.count;
-            }
+            var resultCount = result.Sum(item => item.Count);
 
             Assert.Equal(6, resultCount);
         }
@@ -95,7 +89,7 @@ namespace yazlab1p3.tests
 
             var result = Utilities.SearchForKeywords(wordList, keywords);
 
-            Assert.True(result[0].count == 0);
+            Assert.True(result[0].Count == 0);
         }
 
         [Fact]
@@ -108,6 +102,25 @@ namespace yazlab1p3.tests
             Assert.DoesNotContain("<h1>", result);
             Assert.DoesNotContain("<div>", result);
             Assert.DoesNotContain("<a>", result);
+        }
+
+        [Fact]
+        public void StandardDeviation_ResultIsTrue_ReturnTrue()
+        {
+            var numberList = new List<double> {10, 43, 12, 3, 8};
+            var expectedResult = Math.Round(15.896540504147, MidpointRounding.ToEven);
+
+            var actualResult = Math.Round(Utilities.StandardDeviation(numberList), MidpointRounding.ToEven);
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void StandardDeviation_ResultIsZeroWhenInputNull_ReturnTrue()
+        {
+            var result = Utilities.StandardDeviation(null);
+
+            Assert.Equal(0, result);
         }
     }
 }

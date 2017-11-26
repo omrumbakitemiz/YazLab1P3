@@ -2,8 +2,8 @@
 {
     public class SearchKeywordResult
     {
-        public string keyword;
-        public int count;
-        public string[] text;
+        public string Keyword;
+        public int Count;
+        public string[] Text;
     }
 }
