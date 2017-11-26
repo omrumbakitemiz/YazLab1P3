@@ -114,5 +114,31 @@ namespace yazlab1p3.Util
 
             return Math.Sqrt(variance);
         }
+
+        /// <summary>
+        /// Bu metod verilen sayıların z puanlarını hesaplar.
+        /// </summary>
+        /// <param name="numberList"></param>
+        /// <returns></returns>
+        public static List<double> Zscore(List<double> numberList)
+        {
+            var average = numberList.Average();
+            var standardDeviation = StandardDeviation(numberList);
+            var zScoreList = numberList.Select(item => Math.Round((item - average) / standardDeviation, 4)).ToList();
+
+            return zScoreList;
+        }
+
+        /// <summary>
+        /// Bu metod verilen z puanlarını t puanlarına dönüştürür.
+        /// </summary>
+        /// <param name="zPointList"></param>
+        /// <returns></returns>
+        public static List<double> Tscore(List<double> zPointList)
+        {
+            var tPointList = zPointList.Select(item => Math.Round(10 * item + 50, 4)).ToList();
+            
+            return tPointList;
+        }
     }
 }
