@@ -150,17 +150,26 @@ namespace yazlab1p3.Util
         /// <returns></returns>
         public static List<double> Score(List<List<SearchKeywordResult>> results, List<List<double>> numberListList)
         {
-            List<int> sums = new List<int>();
+            //List<int> sums = new List<int>();
             List<double> standartDeviationList = new List<double>();
 
-            double keywordCount = Convert.ToDouble(results[0].Count);
+            //double keywordCount = Convert.ToDouble(results[0].Count);
             double webSiteCount = results.Count;
 
             //for (int i = 0; i < keywordCount; i++)
             //{
             //    sums.Add(results.Sum(p => p[i].Count));
             //}
+            var sums = results.Select(p => p.Sum(t => t.Count)).ToList();
             
+            //for (int i = 0; i < webSiteCount; i++)
+            //{
+            //    //var data = results[i];
+            //    //var data2 = data[0].Count;
+            //    //sums.Add(data2);
+                
+            //}
+
             //var averages = sums.Select(item => item / keywordCount).ToList();
 
             //List<double> scores = new List<double>();
@@ -173,7 +182,7 @@ namespace yazlab1p3.Util
             //{
             //    for (int j = 0; j < webSiteCount; j++)
             //    {
-            //        var result = results[j]; 
+            //        var result = results[j];
             //        var count = result[i].Count;
 
             //        if (count >= averages[i])
@@ -187,10 +196,10 @@ namespace yazlab1p3.Util
             //    }
             //}
 
-            //for (int i = 0; i < webSiteCount; i++)
-            //{
-            //    standartDeviationList.Add(Math.Round(StandardDeviation(numberListList[i]), 4));
-            //}
+            for (int i = 0; i < webSiteCount; i++)
+            {
+                standartDeviationList.Add(Math.Round(StandardDeviation(numberListList[i]), 4));
+            }
 
             //List<Score> scoreList = new List<Score>();
 
@@ -227,25 +236,26 @@ namespace yazlab1p3.Util
             //    //}
             //};
 
-            //var countScoreList = scoreList.Select(t => t.CountScore).ToList();
-            //var standartDeviationScoreList = scoreList.Select(p => p.StandardDeviationScore).ToList();
+            var countList = sums.Select(Convert.ToDouble).ToList();
 
-            //var countScoreZScores = Zscore(countScoreList);
-            //var countScoreTScores = Tscore(countScoreZScores);
+            var countZScores = Zscore(countList);
+            var countTScores = Tscore(countZScores);
 
-            //var standartDeviationScoreZScores = Zscore(standartDeviationScoreList);
-            //var standartDeviationScoreTScores = Tscore(standartDeviationScoreZScores);
+            var standartDeviationZScores = Zscore(standartDeviationList);
+            var standartDeviationTScores = Tscore(standartDeviationZScores);
 
-            //double[] data1 = new double[4];
- 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    data1[i] = countScoreTScores[i] - standartDeviationScoreTScores[i];
-            //}
+            List<double> scores = new List<double>();
 
+            for (int i = 0; i < 4; i++)
+            {
+                scores.Add(Math.Round(countTScores[i] - standartDeviationTScores[i], 4));
+            }
+            
             //var tempData = scoreList.OrderByDescending(p => p.CountScore).ToList();
             //var data = tempData.OrderBy(t => t.StandardDeviationScore).ToList();
-            
+
+            //scores = Tscore(scores);
+
             return scores;
         }
     }
