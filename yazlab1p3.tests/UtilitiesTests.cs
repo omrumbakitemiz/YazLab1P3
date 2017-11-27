@@ -188,47 +188,64 @@ namespace yazlab1p3.tests
         {
             // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://bilgisayar.kocaeli.edu.tr")));
             // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://www.boun.edu.tr/Default.aspx?SectionID=127")));
-            var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("https://www.cmpe.boun.edu.tr/tr")));
-            // string[] keywords = {"bilgisayar", "proje", "numara","milli"};
+            // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("https://www.cmpe.boun.edu.tr/tr")));
+            string[] keywords = {"bilgisayar", "proje", "numara","milli"};
+
             var searchResults1 = new List<SearchKeywordResult>
             {
-                new SearchKeywordResult {Count = 4, Keyword = "bilgisayar"},
-                new SearchKeywordResult {Count = 6, Keyword = "proje"},
-                new SearchKeywordResult {Count = 5, Keyword = "numara"},
-                new SearchKeywordResult {Count = 3, Keyword = "milli"}
+                new SearchKeywordResult {Count = 4, Keyword = keywords[0]},
+                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
+                new SearchKeywordResult {Count = 5, Keyword = keywords[2]},
+                new SearchKeywordResult {Count = 3, Keyword = keywords[3]}
             };
 
             var searchResults2 = new List<SearchKeywordResult>
             {
-                new SearchKeywordResult {Count = 10, Keyword = "bilgisayar"},
-                new SearchKeywordResult {Count = 0, Keyword = "proje"},
-                new SearchKeywordResult {Count = 5, Keyword = "numara"},
-                new SearchKeywordResult {Count = 2, Keyword = "milli"}
+                new SearchKeywordResult {Count = 10, Keyword = keywords[0]},
+                new SearchKeywordResult {Count = 0, Keyword = keywords[1]},
+                new SearchKeywordResult {Count = 5, Keyword = keywords[2]},
+                new SearchKeywordResult {Count = 2, Keyword = keywords[3]}
             };
 
             var searchResults3 = new List<SearchKeywordResult>
             {
-                new SearchKeywordResult {Count = 5, Keyword = "bilgisayar"},
-                new SearchKeywordResult {Count = 6, Keyword = "proje"},
-                new SearchKeywordResult {Count = 8, Keyword = "numara"},
-                new SearchKeywordResult {Count = 2, Keyword = "milli"}
+                new SearchKeywordResult {Count = 5, Keyword = keywords[0]},
+                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
+                new SearchKeywordResult {Count = 8, Keyword = keywords[2]},
+                new SearchKeywordResult {Count = 2, Keyword = keywords[3]}
             };
 
             var searchResults4 = new List<SearchKeywordResult>
             {
-                new SearchKeywordResult {Count = 2, Keyword = "bilgisayar"},
-                new SearchKeywordResult {Count = 6, Keyword = "proje"},
-                new SearchKeywordResult {Count = 10, Keyword = "numara"},
-                new SearchKeywordResult {Count = 0, Keyword = "milli"}
+                new SearchKeywordResult {Count = 2, Keyword = keywords[0]},
+                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
+                new SearchKeywordResult {Count = 10, Keyword = keywords[2]},
+                new SearchKeywordResult {Count = 0, Keyword = keywords[3]}
             };
-            var actualResults = new List<double>();
 
-            var results1 = Utilities.Score(searchResults1);
-            var results2 = Utilities.Score(searchResults2);
-            var results3 = Utilities.Score(searchResults3);
-            var results4 = Utilities.Score(searchResults4);
+            var webSiteList = new List<List<SearchKeywordResult>>();
 
-            Assert.Equal(results1, actualResults);
+            webSiteList.Add(searchResults1);
+            webSiteList.Add(searchResults2);
+            webSiteList.Add(searchResults3);
+            webSiteList.Add(searchResults4);
+
+            var numberList1 = new List<double> {4, 6, 5, 3};
+            var numberList2 = new List<double> { 10, 0, 5, 2 };
+            var numberList3 = new List<double> { 5, 6, 8, 2 };
+            var numberList4 = new List<double> { 2, 6, 10, 0 };
+
+            var numberListList = new List<List<double>>();
+
+            numberListList.Add(numberList1);
+            numberListList.Add(numberList2);
+            numberListList.Add(numberList3);
+            numberListList.Add(numberList4);
+
+            var result = Utilities.Score(webSiteList, numberListList);
+            var actualResults = new List<double> { 0, 0, 2, 0 };
+
+            Assert.Equal(result, actualResults);
         }
     }
 }

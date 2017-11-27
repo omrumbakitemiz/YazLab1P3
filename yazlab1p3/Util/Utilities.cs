@@ -142,11 +142,117 @@ namespace yazlab1p3.Util
             return tPointList;
         }
 
-        public static List<double> Score(List<SearchKeywordResult> result)
+        /// <summary>
+        /// Bu metod gelen arama sonuçlarını değerlendirerek bir skor listesi döndürür.
+        /// </summary>
+        /// <param name="results"></param>
+        /// <param name="numberListList"></param>
+        /// <returns></returns>
+        public static List<double> Score(List<List<SearchKeywordResult>> results, List<List<double>> numberListList)
         {
-            var numberList = result.Select(item => Convert.ToDouble(item.Count)).ToList();
+            List<int> sums = new List<int>();
+            List<double> standartDeviationList = new List<double>();
+
+            double keywordCount = Convert.ToDouble(results[0].Count);
+            double webSiteCount = results.Count;
+
+            //for (int i = 0; i < keywordCount; i++)
+            //{
+            //    sums.Add(results.Sum(p => p[i].Count));
+            //}
             
-            return Zscore(numberList);
+            //var averages = sums.Select(item => item / keywordCount).ToList();
+
+            //List<double> scores = new List<double>();
+            //for (int i = 0; i < webSiteCount; i++)
+            //{
+            //    scores.Add(0);
+            //}
+
+            //for (int i = 0; i < keywordCount; i++)
+            //{
+            //    for (int j = 0; j < webSiteCount; j++)
+            //    {
+            //        var result = results[j]; 
+            //        var count = result[i].Count;
+
+            //        if (count >= averages[i])
+            //        {
+            //            scores[j]++;
+            //        }
+            //        else
+            //        {
+            //            scores[j]--;
+            //        }
+            //    }
+            //}
+
+            //for (int i = 0; i < webSiteCount; i++)
+            //{
+            //    standartDeviationList.Add(Math.Round(StandardDeviation(numberListList[i]), 4));
+            //}
+
+            //List<Score> scoreList = new List<Score>();
+
+            //for (int i = 0; i < scores.Count; i++)
+            //{
+            //    scoreList.Add(new Score
+            //    {
+            //        CountScore = scores[i],
+            //        StandardDeviationScore = standartDeviationList[i]
+            //    });
+            //}
+
+            //List<Score> scoreList = new List<Score>
+            //{
+            //    //new Score
+            //    //{
+            //    //    CountScore = 6,
+            //    //    StandardDeviationScore = 2.5
+            //    //},
+            //    //new Score
+            //    //{
+            //    //    CountScore = 4,
+            //    //    StandardDeviationScore = 1.5
+            //    //},
+            //    //new Score
+            //    //{
+            //    //    CountScore = 3,
+            //    //    StandardDeviationScore = 6.7
+            //    //},
+            //    //new Score
+            //    //{
+            //    //    CountScore = 2,
+            //    //    StandardDeviationScore = 3.5
+            //    //}
+            //};
+
+            //var countScoreList = scoreList.Select(t => t.CountScore).ToList();
+            //var standartDeviationScoreList = scoreList.Select(p => p.StandardDeviationScore).ToList();
+
+            //var countScoreZScores = Zscore(countScoreList);
+            //var countScoreTScores = Tscore(countScoreZScores);
+
+            //var standartDeviationScoreZScores = Zscore(standartDeviationScoreList);
+            //var standartDeviationScoreTScores = Tscore(standartDeviationScoreZScores);
+
+            //double[] data1 = new double[4];
+ 
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    data1[i] = countScoreTScores[i] - standartDeviationScoreTScores[i];
+            //}
+
+            //var tempData = scoreList.OrderByDescending(p => p.CountScore).ToList();
+            //var data = tempData.OrderBy(t => t.StandardDeviationScore).ToList();
+            
+            return scores;
         }
+    }
+
+    public class Score
+    {
+        public double CountScore;
+        public double StandardDeviationScore;
     }
 }
