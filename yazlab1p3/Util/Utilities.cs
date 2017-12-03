@@ -204,6 +204,26 @@ namespace yazlab1p3.Util
 
             return new List<string>();
         }
+
+        /// <summary>
+        /// Bu metod verilen metnin içindeki Türkçe karakterleri(ç,ğ,ı,ü vb.) İngilizce karakterlerle değiştirir.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string ReplaceTurkishCharacters(string text)
+        {
+            // abcçdefgğhıijklmnoöprsştuüvyz
+            text = text.Replace('ç', 'c').Replace('ğ', 'g').
+                Replace('ı', 'i').Replace('ö', 'o').
+                Replace('ş', 's').Replace('ü', 'u');
+
+            return text;
+        }
+
+        public static string ToLowercase(string text)
+        {
+            return text.ToLower();
+        }
     }
 
     public class Score

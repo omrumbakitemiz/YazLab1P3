@@ -9,6 +9,8 @@ namespace yazlab1p3.tests
 {
     public class UtilitiesTests
     {
+        private readonly Random _random = new Random();
+
         [Fact]
         public void GetHtml_ResultIsNotNull_ReturnsTrue()
         {
@@ -252,6 +254,38 @@ namespace yazlab1p3.tests
         public void GetSubUrls_ResultsIsListOfStrings_ReturnTrue()
         {
             var data = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
+        }
+
+        [Fact]
+        public void ToLowercase_ResultNotContainCapital_ReturnTrue()
+        {
+            string[] testLetters = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
+            string testText = "Bilgisayar bilgisayar milli MİLLİ güvenlik GüvenLik";
+
+            var result = Utilities.ToLowercase(testText);
+            var randomLetterIndex = _random.Next(0, testLetters.Length);
+
+            for (int i = 0; i < 50; i++)
+            {
+                Assert.DoesNotContain(testLetters[randomLetterIndex], result);
+                randomLetterIndex = _random.Next(0, testLetters.Length);
+            }
+        }
+
+        [Fact]
+        public void ReplaceTurkishCharacters_ResultNotContainTurkishCharacters_ReturnTrue()
+        {
+            string[] turkishCharacters = {"ç", "ğ", "ı", "ö", "ş", "ü"};
+            string testText = "pijamalı hasta yağız şoföre çabucak güvendi";
+            var randomCharacterIndex = _random.Next(0, turkishCharacters.Length);
+
+            var result = Utilities.ReplaceTurkishCharacters(testText);
+
+            for (int i = 0; i < 50; i++)
+            {
+                Assert.DoesNotContain(turkishCharacters[randomCharacterIndex], result);
+                randomCharacterIndex = _random.Next(0, turkishCharacters.Length);
+            }
         }
     }
 }
