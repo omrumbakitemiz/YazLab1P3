@@ -1,7 +1,8 @@
 ﻿namespace yazlab1p3.Models
 {
-    public class SearchKeywordResult
+    public class KeywordSearchResult
     {
+        public int WebSiteId;
         public string Keyword;
         public int Count;
         public string[] Text;

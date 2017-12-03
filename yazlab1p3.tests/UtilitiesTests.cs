@@ -184,46 +184,46 @@ namespace yazlab1p3.tests
         }
 
         [Fact]
-        public void Score_ResultsTrue_ReturnTrue()
+        public void Score_ResultIsTrue_ReturnTrue()
         {
             // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://bilgisayar.kocaeli.edu.tr")));
             // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("http://www.boun.edu.tr/Default.aspx?SectionID=127")));
             // var wordList = Utilities.SplitToWords(Utilities.RemoveHtmlTags(Utilities.GetHtmlSource("https://www.cmpe.boun.edu.tr/tr")));
             string[] keywords = {"bilgisayar", "proje", "numara","milli"};
 
-            var searchResults1 = new List<SearchKeywordResult>
+            var searchResults1 = new List<KeywordSearchResult>
             {
-                new SearchKeywordResult {Count = 4, Keyword = keywords[0]},
-                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
-                new SearchKeywordResult {Count = 5, Keyword = keywords[2]},
-                new SearchKeywordResult {Count = 3, Keyword = keywords[3]}
+                new KeywordSearchResult {Count = 4, Keyword = keywords[0], WebSiteId = 1},
+                new KeywordSearchResult {Count = 6, Keyword = keywords[1], WebSiteId = 1},
+                new KeywordSearchResult {Count = 5, Keyword = keywords[2], WebSiteId = 1},
+                new KeywordSearchResult {Count = 3, Keyword = keywords[3], WebSiteId = 1}
             };
 
-            var searchResults2 = new List<SearchKeywordResult>
+            var searchResults2 = new List<KeywordSearchResult>
             {
-                new SearchKeywordResult {Count = 10, Keyword = keywords[0]},
-                new SearchKeywordResult {Count = 0, Keyword = keywords[1]},
-                new SearchKeywordResult {Count = 5, Keyword = keywords[2]},
-                new SearchKeywordResult {Count = 2, Keyword = keywords[3]}
+                new KeywordSearchResult {Count = 10, Keyword = keywords[0], WebSiteId = 2},
+                new KeywordSearchResult {Count = 0, Keyword = keywords[1], WebSiteId = 2},
+                new KeywordSearchResult {Count = 5, Keyword = keywords[2], WebSiteId = 2},
+                new KeywordSearchResult {Count = 2, Keyword = keywords[3], WebSiteId = 2}
             };
 
-            var searchResults3 = new List<SearchKeywordResult>
+            var searchResults3 = new List<KeywordSearchResult>
             {
-                new SearchKeywordResult {Count = 5, Keyword = keywords[0]},
-                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
-                new SearchKeywordResult {Count = 8, Keyword = keywords[2]},
-                new SearchKeywordResult {Count = 2, Keyword = keywords[3]}
+                new KeywordSearchResult {Count = 5, Keyword = keywords[0], WebSiteId = 3},
+                new KeywordSearchResult {Count = 6, Keyword = keywords[1], WebSiteId = 3},
+                new KeywordSearchResult {Count = 8, Keyword = keywords[2], WebSiteId = 3},
+                new KeywordSearchResult {Count = 2, Keyword = keywords[3], WebSiteId = 3}
             };
 
-            var searchResults4 = new List<SearchKeywordResult>
+            var searchResults4 = new List<KeywordSearchResult>
             {
-                new SearchKeywordResult {Count = 2, Keyword = keywords[0]},
-                new SearchKeywordResult {Count = 6, Keyword = keywords[1]},
-                new SearchKeywordResult {Count = 10, Keyword = keywords[2]},
-                new SearchKeywordResult {Count = 0, Keyword = keywords[3]}
+                new KeywordSearchResult {Count = 2, Keyword = keywords[0], WebSiteId = 4},
+                new KeywordSearchResult {Count = 6, Keyword = keywords[1], WebSiteId = 4},
+                new KeywordSearchResult {Count = 10, Keyword = keywords[2], WebSiteId = 4},
+                new KeywordSearchResult {Count = 0, Keyword = keywords[3], WebSiteId = 4}
             };
 
-            var webSiteList = new List<List<SearchKeywordResult>>();
+            var webSiteList = new List<List<KeywordSearchResult>>();
 
             webSiteList.Add(searchResults1);
             webSiteList.Add(searchResults2);
@@ -243,9 +243,15 @@ namespace yazlab1p3.tests
             numberListList.Add(numberList4);
 
             var result = Utilities.Score(webSiteList, numberListList);
-            var actualResults = new List<double> { 0, 0, 2, 0 };
+            var actualResults = new List<Score>();
 
             Assert.Equal(result, actualResults);
+        }
+
+        [Fact]
+        public void GetSubUrls_ResultsIsListOfStrings_ReturnTrue()
+        {
+            var data = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
         }
     }
 }

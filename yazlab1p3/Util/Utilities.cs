@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 using yazlab1p3.Models;
 
 namespace yazlab1p3.Util
@@ -67,9 +68,9 @@ namespace yazlab1p3.Util
         /// <param name="wordList"></param>
         /// <param name="keywords"></param>
         /// <returns></returns>
-        public static List<SearchKeywordResult> SearchForKeywords(List<string> wordList, string[] keywords)
+        public static List<KeywordSearchResult> SearchForKeywords(List<string> wordList, string[] keywords)
         {
-            List<SearchKeywordResult> resultList = new List<SearchKeywordResult>();
+            List<KeywordSearchResult> resultList = new List<KeywordSearchResult>();
 
             foreach (var keyword in keywords)
             {
@@ -86,7 +87,7 @@ namespace yazlab1p3.Util
                     texts[i] = results.ElementAt(i);
                 }
                 
-                SearchKeywordResult result = new SearchKeywordResult { Keyword = keyword, Count = count, Text = texts };
+                KeywordSearchResult result = new KeywordSearchResult { Keyword = keyword, Count = count, Text = texts };
                 resultList.Add(result);
             }
             
@@ -148,94 +149,18 @@ namespace yazlab1p3.Util
         /// <param name="results"></param>
         /// <param name="numberListList"></param>
         /// <returns></returns>
-        public static List<double> Score(List<List<SearchKeywordResult>> results, List<List<double>> numberListList)
+        public static List<Score> Score(List<List<KeywordSearchResult>> results, List<List<double>> numberListList)
         {
-            //List<int> sums = new List<int>();
             List<double> standartDeviationList = new List<double>();
-
-            //double keywordCount = Convert.ToDouble(results[0].Count);
             double webSiteCount = results.Count;
 
-            //for (int i = 0; i < keywordCount; i++)
-            //{
-            //    sums.Add(results.Sum(p => p[i].Count));
-            //}
             var sums = results.Select(p => p.Sum(t => t.Count)).ToList();
             
-            //for (int i = 0; i < webSiteCount; i++)
-            //{
-            //    //var data = results[i];
-            //    //var data2 = data[0].Count;
-            //    //sums.Add(data2);
-                
-            //}
-
-            //var averages = sums.Select(item => item / keywordCount).ToList();
-
-            //List<double> scores = new List<double>();
-            //for (int i = 0; i < webSiteCount; i++)
-            //{
-            //    scores.Add(0);
-            //}
-
-            //for (int i = 0; i < keywordCount; i++)
-            //{
-            //    for (int j = 0; j < webSiteCount; j++)
-            //    {
-            //        var result = results[j];
-            //        var count = result[i].Count;
-
-            //        if (count >= averages[i])
-            //        {
-            //            scores[j]++;
-            //        }
-            //        else
-            //        {
-            //            scores[j]--;
-            //        }
-            //    }
-            //}
-
             for (int i = 0; i < webSiteCount; i++)
             {
                 standartDeviationList.Add(Math.Round(StandardDeviation(numberListList[i]), 4));
             }
-
-            //List<Score> scoreList = new List<Score>();
-
-            //for (int i = 0; i < scores.Count; i++)
-            //{
-            //    scoreList.Add(new Score
-            //    {
-            //        CountScore = scores[i],
-            //        StandardDeviationScore = standartDeviationList[i]
-            //    });
-            //}
-
-            //List<Score> scoreList = new List<Score>
-            //{
-            //    //new Score
-            //    //{
-            //    //    CountScore = 6,
-            //    //    StandardDeviationScore = 2.5
-            //    //},
-            //    //new Score
-            //    //{
-            //    //    CountScore = 4,
-            //    //    StandardDeviationScore = 1.5
-            //    //},
-            //    //new Score
-            //    //{
-            //    //    CountScore = 3,
-            //    //    StandardDeviationScore = 6.7
-            //    //},
-            //    //new Score
-            //    //{
-            //    //    CountScore = 2,
-            //    //    StandardDeviationScore = 3.5
-            //    //}
-            //};
-
+            
             var countList = sums.Select(Convert.ToDouble).ToList();
 
             var countZScores = Zscore(countList);
@@ -244,25 +169,46 @@ namespace yazlab1p3.Util
             var standartDeviationZScores = Zscore(standartDeviationList);
             var standartDeviationTScores = Tscore(standartDeviationZScores);
 
-            List<double> scores = new List<double>();
+            //List<double> scores = new List<double>();
 
-            for (int i = 0; i < 4; i++)
+            //for (int i = 0; i < webSiteCount; i++)
+            //{
+            //    scores.Add(Math.Round(countTScores[i] - standartDeviationTScores[i], 4));
+            //}
+
+            var scoreList = new List<Score>();
+
+            for (int i = 0; i < webSiteCount; i++)
             {
-                scores.Add(Math.Round(countTScores[i] - standartDeviationTScores[i], 4));
+                scoreList.Add(new Score
+                {
+                    LastScore = Math.Round(countTScores[i] - standartDeviationTScores[i], 4),
+                    WebSiteId = i+1
+                });
             }
+
+            var orderedScoreList = scoreList.OrderBy(t => t.LastScore).ToList();
             
-            //var tempData = scoreList.OrderByDescending(p => p.CountScore).ToList();
-            //var data = tempData.OrderBy(t => t.StandardDeviationScore).ToList();
+            return orderedScoreList;
+        }
 
-            //scores = Tscore(scores);
+        public static List<string> GetSubUrls(string url)
+        {
+            List<string> subUrlList = new List<string>();
+            HtmlWeb htmlWeb = new HtmlWeb();
+            HtmlDocument document = htmlWeb.Load(url);
+            foreach (HtmlNode subUrl in document.DocumentNode.SelectNodes("//a[@href]"))
+            {
+                subUrlList.Add(subUrl.InnerText);
+            }
 
-            return scores;
+            return new List<string>();
         }
     }
 
     public class Score
     {
-        public double CountScore;
-        public double StandardDeviationScore;
+        public int WebSiteId;
+        public double LastScore;
     }
 }
