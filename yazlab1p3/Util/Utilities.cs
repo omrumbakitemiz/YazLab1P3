@@ -220,6 +220,11 @@ namespace yazlab1p3.Util
             return text;
         }
 
+        /// <summary>
+        /// Bu metod verilen metnin içinedeki tüm karakterleri küçük harfe çevirir.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string ToLowercase(string text)
         {
             return text.ToLower();
