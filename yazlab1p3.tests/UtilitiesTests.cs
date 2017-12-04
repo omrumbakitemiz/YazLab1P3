@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 using yazlab1p3.Models;
@@ -245,15 +246,34 @@ namespace yazlab1p3.tests
             numberListList.Add(numberList4);
 
             var result = Utilities.Score(webSiteList, numberListList);
-            var actualResults = new List<Score>();
 
-            Assert.Equal(result, actualResults);
+            var actualResults = new List<Score>
+            {
+                new Score
+                {
+                    WebSiteId = 3
+                },
+                new Score
+                {
+                    WebSiteId = 1
+                },
+                new Score
+                {
+                    WebSiteId = 4
+                },
+                new Score
+                {
+                    WebSiteId = 2
+                }
+            };
+
+            Assert.Equal(result[0].WebSiteId, actualResults[0].WebSiteId);
         }
 
         [Fact]
         public void GetSubUrls_ResultsIsListOfStrings_ReturnTrue()
         {
-            var data = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
+            // var data = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
         }
 
         [Fact]
@@ -286,6 +306,28 @@ namespace yazlab1p3.tests
                 Assert.DoesNotContain(turkishCharacters[randomCharacterIndex], result);
                 randomCharacterIndex = _random.Next(0, turkishCharacters.Length);
             }
+        }
+
+        [Fact]
+        public void ReadDictionary_ResultsIsTrue_ReturnTrue()
+        {
+            string[] sampleInput =
+                {"öğretmen;muallim", "aş;yemek", "ab;su", "aba;üstlük", "acaba;acep", "acıma;merhamet"};
+            var path = "test.txt";
+
+            StreamWriter writer = new StreamWriter(path);
+            foreach (var item in sampleInput)
+            {
+                writer.WriteLine(item);
+            }
+            writer.Close();
+
+            var dictionary = ReadDictionary.Read(path);
+
+            Assert.Equal("muallim", dictionary.First(item => item.Key == "öğretmen").Value);
+            Assert.Equal("yemek", dictionary.First(item => item.Key == "aş").Value);
+            Assert.Equal("acep", dictionary.First(item => item.Key == "acaba").Value);
+            Assert.Equal("üstlük", dictionary.First(item => item.Key == "aba").Value);
         }
     }
 }

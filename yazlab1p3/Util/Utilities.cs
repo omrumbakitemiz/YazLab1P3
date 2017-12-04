@@ -168,14 +168,7 @@ namespace yazlab1p3.Util
 
             var standartDeviationZScores = Zscore(standartDeviationList);
             var standartDeviationTScores = Tscore(standartDeviationZScores);
-
-            //List<double> scores = new List<double>();
-
-            //for (int i = 0; i < webSiteCount; i++)
-            //{
-            //    scores.Add(Math.Round(countTScores[i] - standartDeviationTScores[i], 4));
-            //}
-
+            
             var scoreList = new List<Score>();
 
             for (int i = 0; i < webSiteCount; i++)
@@ -187,7 +180,7 @@ namespace yazlab1p3.Util
                 });
             }
 
-            var orderedScoreList = scoreList.OrderBy(t => t.LastScore).ToList();
+            var orderedScoreList = scoreList.OrderByDescending(t => t.LastScore).ToList();
             
             return orderedScoreList;
         }
@@ -229,11 +222,5 @@ namespace yazlab1p3.Util
         {
             return text.ToLower();
         }
-    }
-
-    public class Score
-    {
-        public int WebSiteId;
-        public double LastScore;
     }
 }
