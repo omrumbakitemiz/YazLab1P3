@@ -1,4 +1,4 @@
-﻿@model yazlab1p3.Controllers.HomeController.UrlKeyword
+﻿@model yazlab1p3.Models.UrlKeyword
 
 @{
     ViewData["Title"] = "SayfaUrlSiralama";
@@ -25,6 +25,39 @@
                 <button type="submit">Search</button>
             </div>
         </form>
+    </div>
+
+    <div>
+        @if (Model != null)
+        {
+            <table class="table table-responsive">
+                <tr>
+                    <th>URLs</th>
+                    <th>Scores</th>
+                </tr>
+                @for (int i = 0; i < Model.Urls.Length; i++)
+                {
+                    <tr>
+                        <td>@Model.Urls[i]</td>
+                        <td>@Model.Scores[i]</td>
+                    </tr>
+                }
+            </table>
+            <hr/>
+            <div>
+                <table class="table table-responsive">
+                    <tr>
+                        <th>Keywords</th>
+                    </tr>
+                    @foreach (var keyword in Model.Keywords)
+                    {
+                        <tr>
+                            <td>@keyword</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
     </div>
 }
 </body>

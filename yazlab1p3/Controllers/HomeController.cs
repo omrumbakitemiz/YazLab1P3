@@ -47,36 +47,11 @@ namespace yazlab1p3.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult SayfaUrlSiralama(UrlKeyword urlKeyword)
-        //{
-        //    return View(urlKeyword);
-        //}
-
         [HttpPost]
         public IActionResult SayfaUrlSiralama(UrlKeyword urlKeyword)
         {
-            // List<string> urlList = model.Select(p => p.Url).ToList();
-
             List<SayfaUrlSiralamaSonuc> model = new List<SayfaUrlSiralamaSonuc>();
-
-            //SayfaUrlSiralamaSonuc temp = new SayfaUrlSiralamaSonuc();
-            //temp.Url = "http://bilgisayar.kocaeli.edu.tr";
-            //temp.AnahtarKelimeler = new List<string>
-            //{
-            //    "bilgisayar",
-            //    "proje"
-            //};
-
-            //SayfaUrlSiralamaSonuc temp2 = new SayfaUrlSiralamaSonuc();
-            //temp2.Url = "https://www.ce.yildiz.edu.tr/";
-            //SayfaUrlSiralamaSonuc temp3 = new SayfaUrlSiralamaSonuc();
-            //temp3.Url = "https://ceng.metu.edu.tr/tr";
-
-            //model.Add(temp);
-            //model.Add(temp2);
-            //model.Add(temp3);
-
+            
             urlKeyword.Keywords = urlKeyword.Keywords[0].Replace("\r", "").Split('\n');
             urlKeyword.Urls = urlKeyword.Urls[0].Replace("\r", "").Split('\n');
 
@@ -96,6 +71,7 @@ namespace yazlab1p3.Controllers
             List<string> urlList = model.Select(p => p.Url).ToList();
 
             var sonuc = Utilities.SayfaUrlSiralama(urlList, model[0].AnahtarKelimeler);
+            var data = sonuc.Select(p => p.AnahtarKelimeGecmeSayisi).ToArray();
 
             UrlKeyword result = new UrlKeyword();
             for (var i = 0; i < sonuc.Count; i++)
@@ -109,29 +85,11 @@ namespace yazlab1p3.Controllers
             return View(result);
         }
 
-        public class UrlKeyword
-        {
-            public string[] Urls { get; set; }
-            public string[] Keywords { get; set; }
-            public int[] Scores { get; set; }
-        }
-
-        //[HttpGet]
-        //public IActionResult UrlKeywordAl()
-        //{
-        //    return View();
-        //}
-        
-        //[HttpPost]
-        //public IActionResult UrlKeywordAl(UrlKeyword urlKeyword)
-        //{
-        //    return RedirectToPage("SayfaUrlSiralama", urlKeyword);
-        //}
-
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+    
 }
