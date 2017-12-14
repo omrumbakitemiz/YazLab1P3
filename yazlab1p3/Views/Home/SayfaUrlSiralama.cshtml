@@ -16,7 +16,9 @@
 {
     <div class="form">
         <form>
-            @Html.EditorFor(p => p.Url)
+            <div class="form-elements">
+                @Html.TextArea("textArea")
+            </div>
 
             <div class="form-elements">
                 <button type="submit">Search</button>

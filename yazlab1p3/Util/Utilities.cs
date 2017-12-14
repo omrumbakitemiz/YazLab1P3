@@ -356,50 +356,81 @@ namespace yazlab1p3.Util
         {
             List<SayfaUrlSiralamaSonuc> result = new List<SayfaUrlSiralamaSonuc>();
             
-            foreach (var url in urls)
+            SayfaUrlSiralamaSonuc sonuc = new SayfaUrlSiralamaSonuc();
+            var tempResult = KeywordSearch(urls[0], keywords.ToArray());
+
+            var temp = tempResult.Select(item => item.Count).ToList();
+            sonuc.AnahtarKelimeGecmeSayisi = temp;
+
+            sonuc.Url = urls[0];
+            sonuc.AnahtarKelimeler = keywords;
+
+            var tempKeywordResultList = new List<List<KeywordSearchResult>>();
+            foreach (var urlTemp in urls)
             {
-                SayfaUrlSiralamaSonuc sonuc = new SayfaUrlSiralamaSonuc();
-                var tempResult = KeywordSearch(url, keywords.ToArray());
-
-                foreach (var item in tempResult)
-                {
-                    sonuc.AnahtarKelimeGecmeSayisi.Add(item.Count);
-                }
-
-                sonuc.Url = url;
-                sonuc.AnahtarKelimeler = keywords;
-
-                var tempKeywordResultList = new List<List<KeywordSearchResult>>();
-                foreach (var urlTemp in urls)
-                {
-                    tempKeywordResultList.Add(KeywordSearch(urlTemp, keywords.ToArray()));
-                }
-
-                var data = Score(tempKeywordResultList);
-
-                foreach (var score in data)
-                {
-                    sonuc.Puan = score.LastScore;
-                }
-
-                result.Add(sonuc);
+                tempKeywordResultList.Add(KeywordSearch(urlTemp, keywords.ToArray()));
             }
 
-            
+            var data = Score(tempKeywordResultList);
 
-            
+            for (var i = 0; i < data.Count; i++)
+            {
+                var score = data[i];
+                var tempSonuc = new SayfaUrlSiralamaSonuc();
+                tempSonuc.Puan = score.LastScore;
+                tempSonuc.Url = urls[i];
+                tempSonuc.AnahtarKelimeler = keywords;
 
-            //var tempResultList = new List<List<KeywordSearchResult>>();
+                result.Add(tempSonuc);
+            }
 
+            var tempKeywordResultArray = tempKeywordResultList.ToArray();
+            for (int i = 0; i < tempKeywordResultArray.Length; i++)
+            {
+                var tempResults = tempKeywordResultArray[i].ToList();
+                var tempAnahtarKelimeSayisi = new List<int>();
+                for (int j = 0; j < tempResult.Count; j++)
+                {
+                    var tempCount = tempResults[j].Count;
+                    tempAnahtarKelimeSayisi.Add(tempCount);
+                }
 
-            //var tempScores = Score(tempResultList);
+                result[i].AnahtarKelimeGecmeSayisi = tempAnahtarKelimeSayisi;
+            }
 
-            //foreach (var tempScore in tempScores)
-            //{
-            //    sonuc.Puan.Add(tempScore.LastScore);
-            //}
 
             return result;
+
+            //List<SayfaUrlSiralamaSonuc> result = new List<SayfaUrlSiralamaSonuc>();
+
+            //foreach (var url in urls)
+            //{
+            //    SayfaUrlSiralamaSonuc sonuc = new SayfaUrlSiralamaSonuc();
+            //    var tempResult = KeywordSearch(url, keywords.ToArray());
+
+            //    var temp = tempResult.Select(item => item.Count).ToList();
+            //    sonuc.AnahtarKelimeGecmeSayisi = temp;
+
+            //    sonuc.Url = url;
+            //    sonuc.AnahtarKelimeler = keywords;
+
+            //    var tempKeywordResultList = new List<List<KeywordSearchResult>>();
+            //    foreach (var urlTemp in urls)
+            //    {
+            //        tempKeywordResultList.Add(KeywordSearch(urlTemp, keywords.ToArray()));
+            //    }
+
+            //    var data = Score(tempKeywordResultList);
+
+            //    foreach (var score in data)
+            //    {
+            //        sonuc.Puan = score.LastScore;
+            //    }
+
+            //    result.Add(sonuc);
+            //}
+
+            //return result;
         }
     }
 }
