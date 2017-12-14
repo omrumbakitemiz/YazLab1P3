@@ -1,0 +1,16 @@
+﻿@model yazlab1p3.Controllers.HomeController.UrlKeyword
+
+
+@{
+    ViewData["Title"] = "UrlKeywordAl";
+}
+
+<h2>UrlKeywordAl</h2>
+
+@*<div class="form-elements">
+        @Html.EditorFor(m => m.Urls)
+        @Html.EditorFor(m => m.Keywords)
+    </div>*@
+
+
+@Html.TextAreaFor(model => model.Urls, new { @class = "form-elements", @cols = 80, @rows = 10 })

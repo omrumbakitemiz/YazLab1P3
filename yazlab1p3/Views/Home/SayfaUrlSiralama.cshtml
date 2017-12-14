@@ -1,4 +1,4 @@
-﻿@model List<SayfaUrlSiralamaSonuc>
+﻿@model yazlab1p3.Controllers.HomeController.UrlKeyword
 
 @{
     ViewData["Title"] = "SayfaUrlSiralama";
@@ -16,9 +16,10 @@
 {
     <div class="form">
         <form>
-            <div class="form-elements">
-                @Html.TextArea("textArea")
-            </div>
+
+            @Html.TextAreaFor(model => model.Urls, new { @class = "form-elements", @cols = 50, @rows = 10 })
+
+            @Html.TextAreaFor(model => model.Keywords, new { @class = "form-elements", @cols = 50, @rows = 10 })
 
             <div class="form-elements">
                 <button type="submit">Search</button>

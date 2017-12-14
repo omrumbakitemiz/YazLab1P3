@@ -397,40 +397,9 @@ namespace yazlab1p3.Util
 
                 result[i].AnahtarKelimeGecmeSayisi = tempAnahtarKelimeSayisi;
             }
-
-
+            
             return result;
-
-            //List<SayfaUrlSiralamaSonuc> result = new List<SayfaUrlSiralamaSonuc>();
-
-            //foreach (var url in urls)
-            //{
-            //    SayfaUrlSiralamaSonuc sonuc = new SayfaUrlSiralamaSonuc();
-            //    var tempResult = KeywordSearch(url, keywords.ToArray());
-
-            //    var temp = tempResult.Select(item => item.Count).ToList();
-            //    sonuc.AnahtarKelimeGecmeSayisi = temp;
-
-            //    sonuc.Url = url;
-            //    sonuc.AnahtarKelimeler = keywords;
-
-            //    var tempKeywordResultList = new List<List<KeywordSearchResult>>();
-            //    foreach (var urlTemp in urls)
-            //    {
-            //        tempKeywordResultList.Add(KeywordSearch(urlTemp, keywords.ToArray()));
-            //    }
-
-            //    var data = Score(tempKeywordResultList);
-
-            //    foreach (var score in data)
-            //    {
-            //        sonuc.Puan = score.LastScore;
-            //    }
-
-            //    result.Add(sonuc);
-            //}
-
-            //return result;
+            
         }
     }
 }
