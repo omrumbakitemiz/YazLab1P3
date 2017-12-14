@@ -1,6 +1,10 @@
 ﻿@model yazlab1p3.Models.UrlKeyword
 
 @{
+    Layout = "_Layout";
+}
+
+@{
     ViewData["Title"] = "SayfaUrlSiralama";
 }
 
@@ -9,57 +13,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <title>YAM: Yerli Arama Motoru</title>
 </head>
 <body>
-@using (Html.BeginForm("SayfaUrlSiralama", "Home", FormMethod.Post))
-{
-    <div class="form">
-        <form>
+    @using (Html.BeginForm("SayfaUrlSiralama", "Home", FormMethod.Post))
+    {
+        <div style="max-width: 600px" class="form">
+            <form>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Urls, "URLs")
+                    @Html.TextAreaFor(model => model.Urls, new { @cols = 40, @rows = 5, @class = "form-control", @placeholder = "Url girin...", @style = "overflow:auto; resize:none" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Keywords, "Keywords")
+                    @Html.TextAreaFor(model => model.Keywords, new { @cols = 40, @rows = 5, @class = "form-control", @placeholder = "Keyword girin...", @style = "overflow:auto; resize:none" })
+                </div>
 
-            @Html.TextAreaFor(model => model.Urls, new { @class = "form-elements", @cols = 50, @rows = 10 })
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
 
-            @Html.TextAreaFor(model => model.Keywords, new { @class = "form-elements", @cols = 50, @rows = 10 })
-
-            <div class="form-elements">
-                <button type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-
-    <div>
-        @if (Model != null)
-        {
-            <table class="table table-responsive">
-                <tr>
-                    <th>URLs</th>
-                    <th>Scores</th>
-                </tr>
-                @for (int i = 0; i < Model.Urls.Length; i++)
-                {
-                    <tr>
-                        <td>@Model.Urls[i]</td>
-                        <td>@Model.Scores[i]</td>
-                    </tr>
-                }
-            </table>
-            <hr/>
-            <div>
+        <div>
+            @if (Model != null)
+            {
                 <table class="table table-responsive">
                     <tr>
-                        <th>Keywords</th>
+                        <th>URLs</th>
+                        <th>Scores</th>
                     </tr>
-                    @foreach (var keyword in Model.Keywords)
+                    @for (int i = 0; i < Model.Urls.Length; i++)
                     {
                         <tr>
-                            <td>@keyword</td>
+                            <td>@Model.Urls[i]</td>
+                            <td>@Model.Scores[i]</td>
                         </tr>
                     }
                 </table>
-            </div>
-        }
-    </div>
-}
+                <hr />
+                <div>
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>Keywords</th>
+                        </tr>
+                        @foreach (var keyword in Model.Keywords)
+                        {
+                            <tr>
+                                <td>@keyword</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    }
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
 

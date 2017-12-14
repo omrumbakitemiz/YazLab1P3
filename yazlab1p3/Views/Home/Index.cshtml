@@ -1,17 +1,5 @@
 ﻿@model List<KeywordSearchResult>
 
-@*<h2>Hello World</h2>
-<hr/>
-@foreach (var item in Model)
-{
-    <h4>Keyword: @item.Keyword</h4>
-    <h4>Count: @item.Count</h4>
-    <h4>
-        Text: 
-        @foreach (var text in item.Text)
-        {
-            @text
-        }
-    </h4>
-    <hr/>
-}*@
+@{
+    Layout = "_Layout";
+}

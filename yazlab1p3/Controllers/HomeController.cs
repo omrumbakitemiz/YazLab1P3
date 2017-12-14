@@ -50,6 +50,12 @@ namespace yazlab1p3.Controllers
         [HttpPost]
         public IActionResult SayfaUrlSiralama(UrlKeyword urlKeyword)
         {
+
+            if (string.IsNullOrEmpty(urlKeyword.Urls[0]) ||  string.IsNullOrEmpty(urlKeyword.Keywords[0]))
+            {
+                return RedirectToAction("Error");
+            }
+
             List<SayfaUrlSiralamaSonuc> model = new List<SayfaUrlSiralamaSonuc>();
             
             urlKeyword.Keywords = urlKeyword.Keywords[0].Replace("\r", "").Split('\n');
