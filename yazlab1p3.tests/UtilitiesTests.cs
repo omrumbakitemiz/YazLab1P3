@@ -245,7 +245,7 @@ namespace yazlab1p3.tests
             numberListList.Add(numberList3);
             numberListList.Add(numberList4);
 
-            var result = Utilities.Score(webSiteList, numberListList);
+            var result = Utilities.Score(webSiteList);
 
             var actualResults = new List<Score>
             {
@@ -273,7 +273,25 @@ namespace yazlab1p3.tests
         [Fact]
         public void GetSubUrls_ResultsIsListOfStrings_ReturnTrue()
         {
-            // var data = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
+            //var d1 = Utilities.GetSubUrls("http://bilgisayar.kocaeli.edu.tr");
+            //var d2 = Utilities.GetSubUrls("https://www.ce.yildiz.edu.tr/");
+            //var d3 = Utilities.GetSubUrls("https://stackoverflow.com/");
+            //var d4 = Utilities.GetSubUrls("https://www.microsoft.com/tr-tr");
+            //var d5 = Utilities.GetSubUrls("https://www.vmware.com/");
+            var d6 = Utilities.GetSubUrls("http://www.hurriyet.com.tr/");
+            //var d7 = Utilities.GetSubUrls("https://www.youtube.com/");
+            
+            StreamWriter writer = new StreamWriter("suburls.txt");
+
+            foreach (var item in d6)
+            {
+                writer.WriteLine(item);
+            }
+
+            writer.Close();
+
+            Assert.DoesNotContain("javascript", d6);
+            Assert.DoesNotContain("#", d6);
         }
 
         [Fact]
@@ -328,6 +346,30 @@ namespace yazlab1p3.tests
             Assert.Equal("yemek", dictionary.First(item => item.Key == "aş").Value);
             Assert.Equal("acep", dictionary.First(item => item.Key == "acaba").Value);
             Assert.Equal("üstlük", dictionary.First(item => item.Key == "aba").Value);
+        }
+
+        [Fact]
+        public void SearchSubUrls()
+        {
+            List<string> urlList = new List<string>
+            {
+                "http://bilgisayar.kocaeli.edu.tr",
+                "https://www.ce.yildiz.edu.tr/"
+            };
+
+            Utilities.SearchSubUrls(urlList);
+        }
+
+        [Fact]
+        public void SubUrlTest()
+        {
+            // Utilities.GenerateWebSiteTree("http://bilgisayar.kocaeli.edu.tr");
+
+            Tree tree = new Tree();
+
+            // tree.AddData();
+
+            tree.Test();
         }
     }
 }

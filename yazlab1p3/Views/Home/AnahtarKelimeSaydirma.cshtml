@@ -1,0 +1,39 @@
+﻿@model yazlab1p3.Models.AnahtarKelimeSaydirma
+
+
+@{
+    ViewData["Title"] = "SearchKeyword";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YAM: Yerli Arama Motoru</title>
+</head>
+<body>
+    @using (Html.BeginForm("AnahtarKelimeSaydirma", "Home", FormMethod.Post))
+    {
+        <div class="form">
+            <form>
+                <div class="form-elements">
+                    <label>URL: </label>
+                    @Html.TextBoxFor(m => m.Url)
+                </div>
+                <div class="form-elements">
+                    <label>Keyword: </label>
+                    @Html.TextBoxFor(m => m.Keyword)
+                </div>
+                <div class="form-elements">
+                    <label>Count: </label>
+                    @Html.DisplayTextFor(m => m.Count)
+                </div>
+                <div class="form-elements">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    }
+</body>
+</html>

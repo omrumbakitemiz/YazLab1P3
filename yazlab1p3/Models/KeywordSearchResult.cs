@@ -5,6 +5,5 @@
         public int WebSiteId;
         public string Keyword;
         public int Count;
-        public string[] Text;
     }
 }
