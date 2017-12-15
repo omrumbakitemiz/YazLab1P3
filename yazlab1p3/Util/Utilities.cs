@@ -499,16 +499,6 @@ namespace yazlab1p3.Util
                 }
             }
             
-            //var reversedDictionary = dictionary.Reverse();
-
-            //foreach (var item in reversedDictionary)
-            //{
-            //    var key = item.Key;
-            //    var value = item.Value;
-
-            //    dictionary.Add(key, value);
-            //}
-            
             List<KeywordSearchResult> resultList = new List<KeywordSearchResult>();
 
             List<string> loweredKeywords = new List<string>();
@@ -523,7 +513,7 @@ namespace yazlab1p3.Util
             {
                 if (!dictionary.TryGetValue(keyword, out string esAnlamli))
                 {
-                    esAnlamli = dictionary.First(p => p.Value == keyword).Key;
+                    esAnlamli = dictionary.FirstOrDefault(p => p.Value == keyword).Key;
                 }
 
                 var count = wordList.Count(p => p == keyword);

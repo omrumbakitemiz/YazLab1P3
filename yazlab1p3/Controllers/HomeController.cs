@@ -81,7 +81,18 @@ namespace yazlab1p3.Controllers
 
             result.Urls = sonuc.Select(p => p.Url).ToArray();
             result.Scores = sonuc.Select(p => Convert.ToInt32(p.Puan)).ToArray();
-            
+
+            result.Counts = new List<int[]>();
+            foreach (var item in data)
+            {
+                int[] dizi = new int[item.Count];
+                for (int i = 0; i < item.Count; i++)
+                {
+                    dizi[i] = item[i];
+                }
+                result.Counts.Add(dizi);
+            }
+
             return View(result);
         }
         [HttpGet]
@@ -129,6 +140,17 @@ namespace yazlab1p3.Controllers
 
             result.Urls = sonuc.Select(p => p.Url).ToArray();
             result.Scores = sonuc.Select(p => Convert.ToInt32(p.Puan)).ToArray();
+
+            result.Counts = new List<int[]>();
+            foreach (var item in data)
+            {
+                int[] dizi = new int[item.Count];
+                for (int i = 0; i < item.Count; i++)
+                {
+                    dizi[i] = item[i];
+                }
+                result.Counts.Add(dizi);
+            }
 
             return View(result);
         }

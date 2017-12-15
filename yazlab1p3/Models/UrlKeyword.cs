@@ -10,5 +10,6 @@ namespace yazlab1p3.Models
         public string[] Urls { get; set; }
         public string[] Keywords { get; set; }
         public int[] Scores { get; set; }
+        public List<int[]> Counts { get; set; }
     }
 }

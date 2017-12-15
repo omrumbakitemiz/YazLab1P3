@@ -40,7 +40,7 @@
         <div>
             @if (Model != null)
             {
-                <table class="table table-responsive">
+                <table style="max-width: 350px"  class="table table-responsive">
                     <tr>
                         <th>URLs</th>
                         <th>Scores</th>
@@ -53,9 +53,26 @@
                         </tr>
                     }
                 </table>
-                <hr />
+                
                 <div>
-                    <table class="table table-responsive">
+                    <table style="max-width: 350px" class="table table-responsive">
+                        <tr>
+                            <th>Counts</th>
+                        </tr>
+                        @foreach (var count in Model.Counts)
+                        {
+                            <tr>
+                                @foreach (var tempCount in count)
+                                {
+                                    <td>@tempCount</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+                <div>
+                    <table style="max-width: 350px"  class="table table-responsive">
                         <tr>
                             <th>Keywords</th>
                         </tr>

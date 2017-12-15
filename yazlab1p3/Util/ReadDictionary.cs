@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
 
 namespace yazlab1p3.Util
 {
@@ -8,6 +10,7 @@ namespace yazlab1p3.Util
         public static Dictionary<string, string> Read(string path)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            
             StreamReader streamReader = new StreamReader(path);
 
             string line;

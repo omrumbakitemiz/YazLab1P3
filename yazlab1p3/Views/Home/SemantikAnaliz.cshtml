@@ -30,7 +30,6 @@
                     @Html.LabelFor(model => model.Keywords, "Keywords")
                     @Html.TextAreaFor(model => model.Keywords, new { @cols = 40, @rows = 5, @class = "form-control", @placeholder = "Keyword girin...", @style = "overflow:auto; resize:none" })
                 </div>
-
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">Search</button>
                 </div>
@@ -40,7 +39,7 @@
         <div>
             @if (Model != null)
             {
-                <table class="table table-responsive">
+                <table style="max-width: 350px" class="table table-responsive">
                     <tr>
                         <th>URLs</th>
                         <th>Scores</th>
@@ -53,9 +52,26 @@
                         </tr>
                     }
                 </table>
-                <hr />
+
                 <div>
-                    <table class="table table-responsive">
+                    <table style="max-width: 350px" class="table table-responsive">
+                        <tr>
+                            <th>Counts</th>
+                        </tr>
+                        @foreach (var count in Model.Counts)
+                        {
+                            <tr>
+                                @foreach (var tempCount in count)
+                                {
+                                    <td>@tempCount</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <br />
+                <div>
+                    <table style="max-width: 350px" class="table table-responsive">
                         <tr>
                             <th>Keywords</th>
                         </tr>
