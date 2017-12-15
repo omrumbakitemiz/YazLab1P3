@@ -340,11 +340,24 @@ namespace yazlab1p3.Util
 
             for (int i = 0; i < webSiteCount; i++)
             {
-                scoreList.Add(new Score
+                //scoreList.Add(new Score
+                //{
+                //    LastScore = Math.Round(countTScores[i] - standartDeviationTScores[i], 4),
+                //    WebSiteId = i + 1
+                //});
+                var score = new Score();
+                var tempLastScore = Math.Round(countTScores[i] - standartDeviationTScores[i], 4);
+                if (tempLastScore == 0)
                 {
-                    LastScore = Math.Round(countTScores[i] - standartDeviationTScores[i], 4),
-                    WebSiteId = i + 1
-                });
+                    tempLastScore = countTScores[i];
+                    score.LastScore = tempLastScore;
+                }
+                else
+                {
+                    score.LastScore = tempLastScore;
+                }
+                score.WebSiteId = i + 1;
+                scoreList.Add(score);
             }
 
             var orderedScoreList = scoreList.OrderByDescending(t => t.LastScore).ToList();
@@ -400,6 +413,129 @@ namespace yazlab1p3.Util
             
             return result;
             
+        }
+
+        public static List<SayfaUrlSiralamaSonuc> SemantikAnaliz(List<string> urls, List<string> keywords)
+        {
+            List<SayfaUrlSiralamaSonuc> result = new List<SayfaUrlSiralamaSonuc>();
+
+            SayfaUrlSiralamaSonuc sonuc = new SayfaUrlSiralamaSonuc();
+            var tempResult = KeywordSearchSemantik(urls[0], keywords.ToArray());
+
+            var temp = tempResult.Select(item => item.Count).ToList();
+            sonuc.AnahtarKelimeGecmeSayisi = temp;
+
+            sonuc.Url = urls[0];
+            sonuc.AnahtarKelimeler = keywords;
+
+            var tempKeywordResultList = new List<List<KeywordSearchResult>>();
+            foreach (var urlTemp in urls)
+            {
+                tempKeywordResultList.Add(KeywordSearchSemantik(urlTemp, keywords.ToArray()));
+            }
+
+            var data = Score(tempKeywordResultList);
+
+            for (var i = 0; i < data.Count; i++)
+            {
+                var score = data[i];
+                var tempSonuc = new SayfaUrlSiralamaSonuc();
+                tempSonuc.Puan = score.LastScore;
+                tempSonuc.Url = urls[i];
+                tempSonuc.AnahtarKelimeler = keywords;
+
+                result.Add(tempSonuc);
+            }
+
+            var tempKeywordResultArray = tempKeywordResultList.ToArray();
+            for (int i = 0; i < tempKeywordResultArray.Length; i++)
+            {
+                var tempResults = tempKeywordResultArray[i].ToList();
+                var tempAnahtarKelimeSayisi = new List<int>();
+                for (int j = 0; j < tempResult.Count; j++)
+                {
+                    var tempCount = tempResults[j].Count;
+                    tempAnahtarKelimeSayisi.Add(tempCount);
+                }
+
+                result[i].AnahtarKelimeGecmeSayisi = tempAnahtarKelimeSayisi;
+            }
+
+            return result;
+
+        }
+
+        public static List<KeywordSearchResult> KeywordSearchSemantik(string url, string[] keywords)
+        {
+            var wordList = GetWordList(url);
+
+            return SearchForKeywordsSemantik(wordList, keywords);
+        }
+
+        public static Dictionary<TValue, TKey> Reverse<TKey, TValue>(this IDictionary<TKey, TValue> source)
+        {
+            var dictionary = new Dictionary<TValue, TKey>();
+            foreach (var entry in source)
+            {
+                if (!dictionary.ContainsKey(entry.Value))
+                    dictionary.Add(entry.Value, entry.Key);
+            }
+            return dictionary;
+        }
+
+        public static List<KeywordSearchResult> SearchForKeywordsSemantik(List<string> wordList, string[] keywords)
+        {
+            Dictionary<string, string> dictionaryTemp = ReadDictionary.Read("dictionary.csv");
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            foreach (var item in dictionaryTemp)
+            {
+                var key = ReplaceTurkishCharacters(item.Key.ToLower());
+                var value = ReplaceTurkishCharacters(item.Value.ToLower());
+
+                if (!dictionary.ContainsKey(key))
+                {
+                    dictionary.Add(key, value);
+                }
+            }
+            
+            //var reversedDictionary = dictionary.Reverse();
+
+            //foreach (var item in reversedDictionary)
+            //{
+            //    var key = item.Key;
+            //    var value = item.Value;
+
+            //    dictionary.Add(key, value);
+            //}
+            
+            List<KeywordSearchResult> resultList = new List<KeywordSearchResult>();
+
+            List<string> loweredKeywords = new List<string>();
+            foreach (var keyword in keywords)
+            {
+                var temp = keyword.ToLower();
+
+                loweredKeywords.Add(ReplaceTurkishCharacters(temp));
+            }
+
+            foreach (var keyword in loweredKeywords)
+            {
+                if (!dictionary.TryGetValue(keyword, out string esAnlamli))
+                {
+                    esAnlamli = dictionary.First(p => p.Value == keyword).Key;
+                }
+
+                var count = wordList.Count(p => p == keyword);
+                var countEsAnlamli = wordList.Count(p => p == esAnlamli);
+
+                var toplamCount = count + countEsAnlamli;
+                
+                KeywordSearchResult result = new KeywordSearchResult { Keyword = keyword, Count = toplamCount };
+                resultList.Add(result);
+            }
+
+            return resultList;
         }
     }
 }

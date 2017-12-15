@@ -1,5 +1,8 @@
 ﻿@model yazlab1p3.Models.AnahtarKelimeSaydirma
 
+@{
+    Layout = "_Layout";
+}
 
 @{
     ViewData["Title"] = "SearchKeyword";
@@ -10,30 +13,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <title>YAM: Yerli Arama Motoru</title>
 </head>
 <body>
     @using (Html.BeginForm("AnahtarKelimeSaydirma", "Home", FormMethod.Post))
     {
-        <div class="form">
+        <div style="max-width: 600px" class="form-horizontal">
             <form>
-                <div class="form-elements">
-                    <label>URL: </label>
-                    @Html.TextBoxFor(m => m.Url)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Url, "URL")
+                    @Html.TextBoxFor(m => m.Url, new { @class = "form-control" })
                 </div>
-                <div class="form-elements">
-                    <label>Keyword: </label>
-                    @Html.TextBoxFor(m => m.Keyword)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Keyword, "Keyword")
+                    @Html.TextBoxFor(m => m.Keyword, new { @class = "form-control" })
                 </div>
-                <div class="form-elements">
-                    <label>Count: </label>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Count, "Count: ")
+                    <br />
                     @Html.DisplayTextFor(m => m.Count)
                 </div>
-                <div class="form-elements">
-                    <button type="submit">Search</button>
+                <div class="form-group">
+                    <button class="btn btn-success" style="max-width: 200px" type="submit">Search</button>
                 </div>
             </form>
         </div>
     }
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

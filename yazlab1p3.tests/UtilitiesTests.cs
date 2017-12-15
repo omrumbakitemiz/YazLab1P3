@@ -88,6 +88,13 @@ namespace yazlab1p3.tests
         }
 
         [Fact]
+        public void SearchForKeywordsSemantik()
+        {
+            string[] keywords = new string[] { "milli", "güvenlik" };
+            Utilities.KeywordSearchSemantik("https://www.btk.gov.tr/", keywords);
+        }
+
+        [Fact]
         public void SearchForKeywords_ResultIsEmptyWhenInputIsEmpty_ReturnTrue()
         {
             var wordList = Utilities.SplitToWords(string.Empty);
